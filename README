@@ -1,0 +1,1 @@
+it is compatiable with gazebo version 1.2.5. To compile, edit the CMakeList.txt and set up the correct path
