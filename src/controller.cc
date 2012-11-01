@@ -81,7 +81,8 @@ void WBRobot::OnUpdate()
         std::cout<<this->updateTimestamp<<": "<<std::endl;
         std::cout<<"---------------------------------------------------------------------------------------------"<<std::endl;
         std::vector<double> ranges;
-        laser->GetRanges(ranges);
+        if(laser)
+            laser->GetRanges(ranges);
         for(int i=0;i<ranges.size();i++)
             std::cout<<ranges[i]<<"\t";
         std::cout<<std::endl; 
