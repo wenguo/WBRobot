@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<model>
+  <name>WBRobot</name>
+  <version>1.0</version>
+  <sdf>model.sdf</sdf>
+
+  <author>
+    <name>Wenguo Liu</name>
+    <email>wenguo.liu@brl.ac.uk</email>
+  </author>
+
+  <description>
+    WBRobot model
+  </description>
+</model>
