@@ -1,5 +1,5 @@
 #include <common/common.hh>
-#include <physics/physics.h>
+#include <physics/physics.hh>
 #include <sensors/Sensors.hh>
 #include <sensors/RaySensor.hh>
 #include <gazebo.hh>

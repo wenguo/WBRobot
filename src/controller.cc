@@ -58,9 +58,9 @@ void WBRobot::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
         gzerr << "Unable to find right joint["
             << _sdf->GetElement("right_joint")->GetValueString() << "]\n";
 
-    std::cout<<"load "<<model->GetName()<<""<<_sdf->GetElement("laser")->GetValueString()<<std::endl;
+    std::string sensorName = model->GetWorld()->GetName() + "::"+model->GetLink("chassis")->GetScopedName()+"::"+_sdf->GetElement("laser")->GetValueString();
     laser =boost::shared_dynamic_cast<sensors::RaySensor>
-        (sensors::get_sensor(this->model->GetName()+"::"+_sdf->GetElement("laser")->GetValueString()));
+        (sensors::get_sensor(sensorName));
     if(laser)
         std::cout<<laser->GetName()<<":"<<laser->GetPose()<<std::endl;
 

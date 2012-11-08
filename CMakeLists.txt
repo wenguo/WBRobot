@@ -8,8 +8,8 @@ include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 
 #change this according to your gazebo installation
-set (GAZEBO_PLUGIN_PATH /usr/lib/gazebo-1.2/plugins)
-set (GAZEBO_RESOURCE_PATH /usr/share/gazebo-1.2)
+set (GAZEBO_PLUGIN_PATH /usr/local/lib/gazebo-1.2/plugins)
+set (GAZEBO_RESOURCE_PATH /usr/local/share/gazebo-1.2)
 
 add_subdirectory(src)
 add_subdirectory(world)

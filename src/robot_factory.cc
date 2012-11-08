@@ -14,7 +14,7 @@
  * limitations under the License.
  *
 */
-#include <physics/physics.h>
+#include <physics/physics.hh>
 #include <gazebo_core.hh>
 
 namespace gazebo
@@ -31,7 +31,7 @@ namespace gazebo
               sdf::SDFPtr modelSDF;
               modelSDF.reset(new sdf::SDF);  
               sdf::initFile("gazebo.sdf", modelSDF);
-              sdf::readFile("models/wbr.model", modelSDF);
+              sdf::readFile("models/wbrobot/model.sdf", modelSDF);
               sdf::ElementPtr modelElem = modelSDF->root->GetElement("model");
               std::string modelName = modelElem->GetValueString("name");
               modelName = modelElem->GetValueString("name") + "_" +
@@ -40,12 +40,6 @@ namespace gazebo
               modelElem->GetElement("pose")->Set(
                       math::Pose(math::Vector3(i, 0, 0), math::Quaternion(0, 0, 0)));
 
-              //TODO: find sensors'name
-              sdf::ElementPtr sensorElem = modelSDF->root->GetElement("model")->GetElement("link")->GetElement("sensor");
-              if(sensorElem)
-              {
-                  sensorElem->GetAttribute("name")->Set(modelElem->GetValueString("name") +"::"+ sensorElem->GetValueString("name")  );
-              }
               _parent->InsertModelSDF(*modelSDF);
           }
       }
