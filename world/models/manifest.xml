@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<database>
+  <name>gazebosim</name>
+  <license>Creative Commons Attribution 3.0 Unported</license>
+
+  <models>
+      <uri>file://wbrobot</uri> 
+      <uri>file://osrobot</uri> 
+  </models>
+</database>

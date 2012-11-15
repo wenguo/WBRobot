@@ -182,6 +182,16 @@
                 </ode>
             </physics>
         </joint>
+        <plugin name="osrobot" filename="libosr_motion.so">
+            <front_left>front_left_joint</front_left>
+            <front_right>front_right_joint</front_right>
+            <back_left>back_left_joint</back_left>
+            <back_right>back_right_joint</back_right>
+            <front_power>10</front_power>
+            <rear_power>10</rear_power>
+        </plugin>
+        <plugin name="osrobot_controller" filename="libosr_controller.so">
+        </plugin>
     </model>
 </gazebo>
 
