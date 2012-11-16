@@ -29,6 +29,7 @@ void OSRobotController::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
     this->velNode = transport::NodePtr(new transport::Node());
     this->velNode->Init(this->model->GetWorld()->GetName());
+    std::cout<<"Load world: "<<this->model->GetWorld()->GetName()<<std::endl;
     this->velPub = this->velNode->Advertise<gazebo::msgs::Pose>(std::string("~/") +
             this->model->GetName() + "/vel_cmd");
 
