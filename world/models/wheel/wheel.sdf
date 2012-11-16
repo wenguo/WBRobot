@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<gazebo version="1.2">
+    <model name="wheel">
+        <link name="wheel_link">
+            <visual name="wheel_support">
+                <pose>0.0 0.0 0.0 0.0 0.0 0.0</pose>
+                <geometry>
+                    <box><size>0.15 0.15 0.05</size></box>
+                </geometry>
+                <material>
+                    <script>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                        <name>Gazebo/Grey</name>
+                    </script>
+                </material>
+            </visual>
+            <visual name="wheel">
+                <pose>0.0 0.09 0.0 0 1.5707 1.5707</pose>
+                <geometry>
+                    <cylinder><radius>0.07</radius><length>0.03</length></cylinder>
+                </geometry>
+                <material>
+                    <script>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                        <name>Gazebo/Blue</name>
+                    </script>
+                </material>
+            </visual>
+        </link>
+    </model>
+</gazebo>

@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<gazebo version="1.2">
+    <model name="osrobot">
+        <link name="chassis">
+            <visual name="chassis_visual">
+                <geometry>
+                    <cylinder>
+                        <radius>0.2</radius>
+                        <length>0.08</length>
+                    </cylinder>
+                </geometry>
+                <material>
+                    <script>
+                        <uri>file://media/materials/scripts/gazebo.material</uri>
+                        <name>Gazebo/GreenTransparent</name>
+                    </script>
+                </material>
+            </visual>
+        </link>
+        <include>
+            <uri>model://wheel</uri>
+            <name>"wheel_left"</name>
+            <pose>0 0.1 0 0 0 0</pose>
+        </include>
+        <include>
+            <uri>model://wheel</uri>
+            <name>"wheel_right"</name>
+            <pose>0 -0.1 0 0 0 3.1415</pose>
+        </include>
+        <include>
+            <uri>model://camera</uri>
+            <name>"camera"</name>
+            <pose>0 0 0.1 0 0 3.1415</pose>
+        </include>
+    </model>
+</gazebo>
+

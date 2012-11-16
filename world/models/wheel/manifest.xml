@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<model>
+  <name>wheel</name>
+  <version>1.0</version>
+  <sdf>wheel.sdf</sdf>
+
+  <author>
+    <name>Wenguo Liu</name>
+    <email>wenguo.liu@brl.ac.uk</email>
+  </author>
+
+  <description>
+    Outdoor swarm robot model
+  </description>
+</model>
