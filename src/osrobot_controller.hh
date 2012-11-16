@@ -18,7 +18,7 @@ namespace gazebo
 
             void OnUpdate();
 
-            void OnVelMsg(ConstPosePtr &_msg);
+            void OnScan(ConstLaserScanPtr &_msg);
 
 
         private:
@@ -30,7 +30,10 @@ namespace gazebo
             common::Time updateTimestamp;
             
             std::vector<event::ConnectionPtr> connections;
-            transport::NodePtr node;
-            transport::SubscriberPtr velSub;
+            transport::NodePtr velNode, laserNode;
+            transport::PublisherPtr velPub;
+            transport::SubscriberPtr laserSub;
+
+            double forwardSpeed, turnAngle;
     };
 }

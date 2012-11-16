@@ -95,7 +95,7 @@ void OSRobot::OnUpdate()
 {
   
   // Compute the angle of the front wheels.
-  double wheelAngle = turnAngle;
+  double wheelAngle = GZ_DTOR(this->turnAngle);;
 
   // Compute the rotational velocity of the wheels
   double jointVel = this->forwardSpeed /this->wheelRadius;
@@ -167,6 +167,9 @@ void OSRobot::OnUpdate()
 
 void OSRobot::OnVelMsg(ConstPosePtr &_msg)
 {
+    this->forwardSpeed = _msg->position().x();
+    this->turnAngle = _msg->position().y();
+    std::cout<<"received vel message: ("<<this->forwardSpeed<<" , "<<this->turnAngle<<")"<<std::endl;
 }
 
 // Register this plugin with the simulator

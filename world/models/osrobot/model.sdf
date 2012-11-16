@@ -191,6 +191,8 @@
             <rear_power>10</rear_power>
         </plugin>
         <plugin name="osrobot_controller" filename="libosr_controller.so">
+            <forward_speed>0.1</forward_speed>
+            <turn_angle>30</turn_angle>
         </plugin>
     </model>
 </gazebo>
