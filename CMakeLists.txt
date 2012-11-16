@@ -11,7 +11,8 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 set (GAZEBO_PLUGIN_PATH /usr/local/lib/gazebo-1.2/plugins)
 set (GAZEBO_RESOURCE_PATH /usr/local/share/gazebo-1.2)
 
-add_subdirectory(src)
+add_subdirectory(plugins)
+add_subdirectory(ctrl)
 add_subdirectory(world)
 
 
