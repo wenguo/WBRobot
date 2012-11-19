@@ -19,9 +19,12 @@ endif()
 
 set (CMAKE_C_FLAGS "-W -O2 -fPIC")
 set (CMAKE_CXX_FLAGS "-W -O2 -fPIC")
+
+if (APPLE)
 set (CMAKE_EXE_LINKER_FLAGS "-undefined dynamic_lookup")
 set (CMAKE_SHARED_LINKER_FLAGS "-undefined dynamic_lookup")
 set (CMAKE_MODULE_LINKER_FLAGS "-undefined dynamic_lookup")
+endif(APPLE)
 
 #change this according to your gazebo installation
 set (GAZEBO_PLUGIN_PATH /usr/local/lib/gazebo-1.2/plugins)

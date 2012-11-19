@@ -6,5 +6,9 @@
   <models>
       <uri>file://wbrobot</uri> 
       <uri>file://osrobot</uri> 
+      <uri>file://camera</uri> 
+      <uri>file://laser</uri> 
+      <uri>file://wheel</uri> 
+      <uri>file://organs</uri> 
   </models>
 </database>
