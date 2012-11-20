@@ -6,7 +6,7 @@ gazebo::transport::PublisherPtr guicameraPub;
 gazebo::transport::SubscriberPtr guiSub;
 gazebo::common::Time updateTimestamp;
 
-void OnCamera(ConstLaserScanPtr &_msg);
+void OnUpdate(ConstGUIPtr &_msg);
 
 int main(int argc, char**argv)
 {
@@ -17,38 +17,48 @@ int main(int argc, char**argv)
     std::string worldName = "default";
     guicameraNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
     guicameraNode->Init(worldName);
-    guicameraPub = velNode->Advertise<gazebo::msgs::Pose>(std::string("~/") +
-            "gui" + "/camera");
+    guicameraPub = guicameraNode->Advertise<gazebo::msgs::GUI>(std::string("~/") +
+            "gui");
 
     guiNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
     guiNode->Init(worldName);
-    guiSub = laserNode->Subscribe(std::string("~/") +
-            "gui", &OnScan, NULL);
+    guiSub = guiNode->Subscribe(std::string("~/") +
+            "gui", &OnUpdate, NULL);
+    double x=0, r=0;
     while(1)
-        usleep(10000000);
+    {
+            x +=0.2;
+            r +=0.1;
+            gazebo::msgs::GUI msg;
+            gazebo::msgs::GUICamera *cam = msg.mutable_camera();
+            cam->set_name("user_cam2");
+            gazebo::msgs::Set(cam->mutable_origin(),
+                    gazebo::math::Pose(x, 0, 0, r, 0, 0));
+            guicameraPub->Publish(msg);
 
+        usleep(1000000);
+    }
     return 0;
 }
 
-void OnScan(ConstLaserScanPtr &_msg)
+void OnUpdate(ConstGUIPtr &_msg)
 {
     static double datatime=0;
     static int count = 0;
 
-    if (gazebo::common::Time::GetWallTime() - updateTimestamp > gazebo::common::Time(1,10000000))
+   // if (gazebo::common::Time::GetWallTime() - updateTimestamp > gazebo::common::Time(1,10000000))
     {
 
         updateTimestamp = gazebo::common::Time::GetWallTime();
 
         {
-            turnAngle = count++ % 60 - 30;
-            gazebo::msgs::Pose msg;
-            gazebo::msgs::Set(msg.mutable_position(),
-                    gazebo::math::Vector3(forwardSpeed, turnAngle, 0));
-            gazebo::msgs::Set(msg.mutable_orientation(),
-                    gazebo::math::Quaternion(0, 0, 0));
-            velPub->Publish(msg);
+            const gazebo::msgs::GUICamera &camera = _msg->camera();
+            std::cout<<camera.name()<<std::endl;
+            std::cout<<camera.origin().position().x()<<" "
+                     <<camera.origin().position().y()<<" "
+                     <<camera.origin().position().z()<<std::endl;
+
         }
     }
-    printf("OnScan\n");
+    printf("On GUI Update\n");
 }
