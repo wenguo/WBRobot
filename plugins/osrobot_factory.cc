@@ -30,7 +30,7 @@ namespace gazebo
           {
               sdf::SDFPtr modelSDF;
               modelSDF.reset(new sdf::SDF);  
-              sdf::initFile("gazebo.sdf", modelSDF);
+              sdf::initFile("root.sdf", modelSDF);
               sdf::readFile("models/osrobot/model.sdf", modelSDF);
               sdf::ElementPtr modelElem = modelSDF->root->GetElement("model");
               std::string modelName = modelElem->GetValueString("name");
@@ -41,6 +41,22 @@ namespace gazebo
                       math::Pose(math::Vector3(i, 0, 0), math::Quaternion(0, 0, 0)));
 
               _parent->InsertModelSDF(*modelSDF);
+
+              /*
+                 transport::NodePtr node(new transport::Node());
+                 node->Init(_parent->GetName());
+                 transport::PublisherPtr factoryPub =
+                 node->Advertise<msgs::Factory>("~/factory");
+                 msgs::Factory msg;
+
+                 msg.set_sdf_filename("model://osrobot");
+
+              // Pose to initialize the model to
+              msgs::Set(msg.mutable_pose(),
+              math::Pose(math::Vector3(i, 0, 0), math::Quaternion(0, 0, 0)));
+
+              // Send the message
+              factoryPub->Publish(msg);*/
           }
       }
   };
