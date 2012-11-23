@@ -1,14 +1,17 @@
 #include <common/common.hh>
 #include <gazebo.hh>
 
-gazebo::transport::NodePtr velNode, laserNode;
-gazebo::transport::PublisherPtr velPub;
-gazebo::transport::SubscriberPtr laserSub;
+gazebo::transport::NodePtr node;
+gazebo::transport::PublisherPtr velPub, guicameraPub;
+gazebo::transport::SubscriberPtr laserSub, poseSub;
 gazebo::common::Time updateTimestamp;
 double forwardSpeed = 0.1;
 double turnAngle = 0;
 
 void OnScan(ConstLaserScanPtr &_msg);
+void OnPoseMsg(ConstPosePtr &_msg);
+
+std::string robotName("osrobot_0");
 
 int main(int argc, char**argv)
 {
@@ -17,15 +20,20 @@ int main(int argc, char**argv)
     gazebo::transport::run();
 
     std::string worldName = "default";
-    velNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
-    velNode->Init(worldName);
-    velPub = velNode->Advertise<gazebo::msgs::Pose>(std::string("~/") +
-            "osrobot_0" + "/vel_cmd");
+    node = gazebo::transport::NodePtr(new gazebo::transport::Node());
+    node->Init(worldName);
 
-    laserNode = gazebo::transport::NodePtr(new gazebo::transport::Node());
-    laserNode->Init(worldName);
-    laserSub = laserNode->Subscribe(std::string("~/") +
-            "osrobot_0" + "/chassis/IR1/scan", &OnScan, NULL);
+    velPub = node->Advertise<gazebo::msgs::Pose>(std::string("~/") +
+            robotName + "/vel_cmd");
+
+    poseSub = node->Subscribe("~/pose/info",&OnPoseMsg, NULL);
+
+    laserSub = node->Subscribe(std::string("~/") +
+            robotName + "/chassis/IR1/scan", &OnScan, NULL);
+
+    guicameraPub = node->Advertise<gazebo::msgs::GUI>(std::string("~/") +
+            "gui");
+
     while(1)
         usleep(10000000);
 
@@ -52,5 +60,21 @@ void OnScan(ConstLaserScanPtr &_msg)
             velPub->Publish(msg);
         }
     }
-    printf("OnScan\n");
+}
+
+void OnPoseMsg(ConstPosePtr &_msg)
+{
+    if (_msg->name() != robotName)
+        return;
+
+    double px = _msg->position().x();
+    double py = _msg->position().y();
+
+    gazebo::msgs::GUI msg;
+    gazebo::msgs::GUICamera *cam = msg.mutable_camera();
+    cam->set_name("user_cam");
+    gazebo::msgs::Set(cam->mutable_origin(),
+            gazebo::math::Pose( px+2, py-2, 1, 0, GZ_DTOR(11.31), GZ_DTOR(135)));
+    guicameraPub->Publish(msg);
+
 }

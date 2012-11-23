@@ -38,7 +38,7 @@ namespace gazebo
                   boost::lexical_cast<std::string>(i); ;
               modelElem->GetAttribute("name")->Set(modelName);
               modelElem->GetElement("pose")->Set(
-                      math::Pose(math::Vector3(i, 0, 0), math::Quaternion(0, 0, 0)));
+                      math::Pose(math::Vector3(2*i, 0, 0), math::Quaternion(0, 0, 0)));
 
               _parent->InsertModelSDF(*modelSDF);
 
