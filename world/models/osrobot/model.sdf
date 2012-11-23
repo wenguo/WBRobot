@@ -11,6 +11,7 @@
                 </geometry>
             </collision>
             <visual name="visual">
+                <cast_shadows>0</cast_shadows>
                 <pose>0 0 0 0 0 -1.5707</pose>
                 <geometry>
                     <mesh>
@@ -52,6 +53,7 @@
             </collision>
             <visual name="visual">
                 <pose>0 0 0 0 -1.5707 -1.5707</pose>
+                <cast_shadows>0</cast_shadows>
                 <geometry>
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
@@ -71,6 +73,7 @@
             </collision>
             <visual name="visual">
                 <pose>0 0 0 0 -1.5707 -1.5707</pose>
+                <cast_shadows>0</cast_shadows>
                 <geometry>
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
@@ -96,6 +99,7 @@
             </collision>
             <visual name="visual">
                 <pose>0 0 0 0 -1.5707 -1.5707</pose>
+                <cast_shadows>0</cast_shadows>
                 <geometry>
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
@@ -122,6 +126,7 @@
             </collision>
             <visual name="visual">
                 <pose>0 0 0 0 -1.5707 -1.5707</pose>
+                <cast_shadows>0</cast_shadows>
                 <geometry>
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
