@@ -10,7 +10,7 @@
                     </box>
                 </geometry>
             </collision>
-            <visual name="visual">
+            <visual name="chassis">
                 <cast_shadows>0</cast_shadows>
                 <pose>0 0 0 0 0 -1.5707</pose>
                 <geometry>
@@ -79,12 +79,6 @@
                         <uri>model://osrobot/meshes/wheel.dae</uri>
                     </mesh>
                 </geometry>
-                <material>
-                    <script>
-                        <uri>file://media/materials/scripts/gazebo.material</uri>
-                        <name>Gazebo/Grey</name>
-                    </script>
-                </material>
             </visual>
         </link>
         <link name="back_right_wheel">
@@ -104,14 +98,7 @@
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
                     </mesh>
-                    <!--cylinder><radius>0.107</radius><length>0.112</length></cylinder-->
                 </geometry>7
-                <material>
-                    <script>
-                        <uri>file://media/materials/scripts/gazebo.material</uri>
-                        <name>Gazebo/Grey</name>
-                    </script>
-                </material>
             </visual>
         </link>
         <link name="back_left_wheel">
@@ -131,14 +118,7 @@
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
                     </mesh>
-                    <!--cylinder><radius>0.107</radius><length>0.112</length></cylinder-->
                 </geometry>
-                <material>
-                    <script>
-                        <uri>file://media/materials/scripts/gazebo.material</uri>
-                        <name>Gazebo/Grey</name>
-                    </script>
-                </material>
             </visual>
         </link>
         <joint type="revolute2" name="front_left_joint">
@@ -236,7 +216,7 @@
             <back_right>back_right_joint</back_right>
             <front_power>10</front_power>
             <rear_power>10</rear_power>
-        </plugin>
+        </plugin-->
         <!--plugin name="osrobot_controller" filename="libosr_controller.so">
             <forward_speed>0.1</forward_speed>
             <turn_angle>30</turn_angle>
