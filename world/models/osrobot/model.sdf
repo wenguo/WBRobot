@@ -72,13 +72,21 @@
                 </geometry>
             </collision>
             <visual name="visual">
-                <pose>0 0 0 0 -1.5707 -1.5707</pose>
+                <pose>0 0 0 0 1.5707 0</pose>
                 <cast_shadows>0</cast_shadows>
                 <geometry>
                     <mesh>
                         <uri>model://osrobot/meshes/wheel.dae</uri>
                     </mesh>
                 </geometry>
+                <material>
+                    <script>
+                        <uri>model://osrobot/materials/scripts/osrobot.material</uri>
+                        <name>osrobot/Orange</name>
+                    </script>
+                </material>
+
+
             </visual>
         </link>
         <link name="back_right_wheel">
