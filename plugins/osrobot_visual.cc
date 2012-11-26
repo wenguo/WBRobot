@@ -52,7 +52,7 @@ void OSRobotVisual::OnUpdate()
 
 void OSRobotVisual::OnReqMsg(ConstReqPtr &_msg)
 {
-    printf("Set following camera\n");
+    printf("Set following camera for %s\n", _msg->name().c_str());
 
     this->following_camera = _msg->following_cam();
 }

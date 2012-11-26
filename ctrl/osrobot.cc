@@ -13,10 +13,12 @@ double turnAngle = 0;
 void OnScan(ConstLaserScanPtr &_msg);
 void OnPoseMsg(ConstPosePtr &_msg);
 
-std::string robotName("osrobot_0");
+std::string robotName("osrobot_");
 
-int main(/*int argc, char**argv*/)
+int main(int argc, char**argv)
 {
+    if(argc==2) 
+    robotName +=argv[1];
     gazebo::transport::init();
     gazebo::transport::run();
 
@@ -32,18 +34,18 @@ int main(/*int argc, char**argv*/)
     laserSub = node->Subscribe(std::string("~/") +
             robotName + "/chassis/IR1/scan", &OnScan, NULL);
 
-    guicameraPub = node->Advertise<my_msgs::Req>(std::string("~/") + robotName +
-            "/req");
+    guicameraPub = node->Advertise<my_msgs::Req>(std::string("~/") + 
+            "/following_camera_req");
 
-    /*
     usleep(1000000);
 
     if(guicameraPub)
     {
         my_msgs::Req msg;
+        msg.set_name(robotName);
         msg.set_following_cam(true);
         guicameraPub->Publish(msg);
-    }*/
+    }
 
 
 
@@ -66,7 +68,6 @@ void OnScan(ConstLaserScanPtr &_msg)
     {
 
         updateTimestamp = gazebo::common::Time::GetWallTime();
-
         {
             turnAngle = count++ % 60 - 30;
             gazebo::msgs::Pose msg;
