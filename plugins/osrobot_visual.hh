@@ -3,6 +3,8 @@
 
 #include <common/common.hh>
 #include <rendering/Visual.hh>
+#include <rendering/Scene.hh>
+#include <rendering/UserCamera.hh>
 #include <gazebo.hh>
 
 #include "req.pb.h"
@@ -27,6 +29,8 @@ namespace gazebo
 
             // Pointer to the update event connection
             event::ConnectionPtr updateConnection;
+            rendering::VisualPtr visual;
+            rendering::UserCameraPtr cam;
 
             common::Time updateTimestamp;
             

@@ -13,13 +13,18 @@ OSRobotVisual::~OSRobotVisual()
 
 void OSRobotVisual::Init()
 {
-    printf("Visual plugin inited\n");
 }
 
 void OSRobotVisual::Load(rendering::VisualPtr _visual, sdf::ElementPtr _sdf)
 {
     printf("Visual plugin loaded\n");
     std::cout<<_visual->GetName()<<std::endl;
+    
+    this->visual = _visual;
+
+    if(this->visual->GetScene()->GetUserCameraCount() > 0)
+        this->cam = this->visual->GetScene()->GetUserCamera(0);
+
     this->connections.push_back(event::Events::ConnectRender(
                 boost::bind(&OSRobotVisual::OnUpdate, this)));
 
@@ -35,8 +40,13 @@ void OSRobotVisual::Load(rendering::VisualPtr _visual, sdf::ElementPtr _sdf)
 
 void OSRobotVisual::OnUpdate()
 {
+    math::Pose cam_pose = math::Pose(this->visual->GetWorldPose().pos + 
+            math::Vector3(3,-2,1), math::Quaternion(0, GZ_DTOR(11.31), GZ_DTOR(135)));
 
-    printf("Visual update\n");
+    if(this->cam)
+    {
+        this->cam->SetWorldPose(cam_pose);
+    }
 
 }
 

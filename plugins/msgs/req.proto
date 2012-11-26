@@ -2,5 +2,6 @@ package my_msgs;
   
 message Req
 { 
-  required bool following_cam = 1;
+  required string name = 1;
+  required bool following_cam = 2;
 }

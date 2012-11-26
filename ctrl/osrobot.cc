@@ -15,9 +15,8 @@ void OnPoseMsg(ConstPosePtr &_msg);
 
 std::string robotName("osrobot_0");
 
-int main(int argc, char**argv)
+int main(/*int argc, char**argv*/)
 {
-
     gazebo::transport::init();
     gazebo::transport::run();
 
@@ -36,6 +35,7 @@ int main(int argc, char**argv)
     guicameraPub = node->Advertise<my_msgs::Req>(std::string("~/") + robotName +
             "/req");
 
+    /*
     usleep(1000000);
 
     if(guicameraPub)
@@ -43,7 +43,7 @@ int main(int argc, char**argv)
         my_msgs::Req msg;
         msg.set_following_cam(true);
         guicameraPub->Publish(msg);
-    }
+    }*/
 
 
 
