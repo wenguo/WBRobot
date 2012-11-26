@@ -4,6 +4,9 @@
 #include <sensors/RaySensor.hh>
 #include <gazebo.hh>
 
+#include "req.pb.h"
+typedef const boost::shared_ptr<my_msgs::Req const> ConstReqPtr;
+
 namespace gazebo
 {
     enum {RIGHT, LEFT};
@@ -19,6 +22,7 @@ namespace gazebo
             void OnUpdate();
 
             void OnVelMsg(ConstPosePtr &_msg);
+            void OnReqMsg(ConstReqPtr &_msg);
 
 
         private:
@@ -33,6 +37,7 @@ namespace gazebo
             physics::LinkPtr chassis;
             std::vector<physics::JointPtr> joints;
             math::Vector3 velocity;
+            math::Pose pose;
 
             double forwardSpeed;
             double turnAngle;
@@ -44,7 +49,12 @@ namespace gazebo
             double aeroLoad;
             double swayForce;
 
+            bool following_camera;
+
+
             transport::NodePtr node;
             transport::SubscriberPtr velSub;
+            transport::SubscriberPtr reqSub;
+
     };
 }

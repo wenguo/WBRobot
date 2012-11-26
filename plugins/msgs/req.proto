@@ -1,0 +1,6 @@
+package my_msgs;
+  
+message Req
+{ 
+  required bool following_cam = 1;
+}

@@ -1,6 +1,8 @@
 #include <common/common.hh>
 #include <gazebo.hh>
 
+#include "req.pb.h"
+
 gazebo::transport::NodePtr node;
 gazebo::transport::PublisherPtr velPub, guicameraPub;
 gazebo::transport::SubscriberPtr laserSub, poseSub;
@@ -31,11 +33,26 @@ int main(int argc, char**argv)
     laserSub = node->Subscribe(std::string("~/") +
             robotName + "/chassis/IR1/scan", &OnScan, NULL);
 
-    guicameraPub = node->Advertise<gazebo::msgs::GUI>(std::string("~/") +
-            "gui");
+    guicameraPub = node->Advertise<my_msgs::Req>(std::string("~/") + robotName +
+            "/req");
+
+    usleep(1000000);
+
+    if(guicameraPub)
+    {
+        my_msgs::Req msg;
+        msg.set_following_cam(true);
+        guicameraPub->Publish(msg);
+    }
+
+
 
     while(1)
-        usleep(10000000);
+    {
+
+        usleep(1000000);
+    }
+
 
     return 0;
 }
@@ -69,12 +86,13 @@ void OnPoseMsg(ConstPosePtr &_msg)
 
     double px = _msg->position().x();
     double py = _msg->position().y();
-
-    gazebo::msgs::GUI msg;
-    gazebo::msgs::GUICamera *cam = msg.mutable_camera();
-    cam->set_name("user_cam");
-    gazebo::msgs::Set(cam->mutable_origin(),
-            gazebo::math::Pose( px+2, py-2, 1, 0, GZ_DTOR(11.31), GZ_DTOR(135)));
-    guicameraPub->Publish(msg);
+    /*
+       gazebo::msgs::GUI msg;
+       gazebo::msgs::GUICamera *cam = msg.mutable_camera();
+       cam->set_name("user_cam");
+       gazebo::msgs::Set(cam->mutable_origin(),
+       gazebo::math::Pose( px+2, py-2, 1, 0, GZ_DTOR(11.31), GZ_DTOR(135)));
+       guicameraPub->Publish(msg);
+       */
 
 }

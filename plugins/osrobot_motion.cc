@@ -1,5 +1,4 @@
 #include "osrobot_motion.hh"
-
 using namespace gazebo;
 
 OSRobot::OSRobot()
@@ -11,6 +10,10 @@ OSRobot::OSRobot()
   this->frontPower=20;
   this->rearPower=20;
   this->maxSpeed=1.0;
+
+  this->following_camera = false;
+
+  this->req_subscribed = false;
 
 }
 
@@ -40,7 +43,6 @@ void OSRobot::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
     
   this->frontPower = _sdf->GetValueDouble("front_power");
   this->rearPower = _sdf->GetValueDouble("rear_power");
-
 
   this->joints[0]->SetAttribute(physics::Joint::SUSPENSION_ERP, 0, 0.15);
   this->joints[0]->SetAttribute(physics::Joint::SUSPENSION_CFM, 0, 0.04);
@@ -89,6 +91,11 @@ void OSRobot::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
 
   this->velSub = this->node->Subscribe(std::string("~/") +
       this->model->GetName() + "/vel_cmd", &OSRobot::OnVelMsg, this);
+
+  this->reqSub = this->node->Subscribe(std::string("~/") +
+          this->model->GetName() + "/req", &OSRobot::OnReqMsg, this);
+
+
 }
 
 void OSRobot::OnUpdate()
@@ -131,7 +138,7 @@ void OSRobot::OnUpdate()
   /*
   //  aerodynamics
   this->chassis->AddForce(
-      math::Vector3(0, 0, this->aeroLoad * this->velocity.GetSquaredLength()));
+  math::Vector3(0, 0, this->aeroLoad * this->velocity.GetSquaredLength()));
 
   // Sway bars
   math::Vector3 bodyPoint;
@@ -142,27 +149,33 @@ void OSRobot::OnUpdate()
 
   for (int ix = 0; ix < 4; ++ix)
   {
-    hingePoint = this->joints[ix]->GetAnchor(0);
-    bodyPoint = this->joints[ix]->GetAnchor(1);
+  hingePoint = this->joints[ix]->GetAnchor(0);
+  bodyPoint = this->joints[ix]->GetAnchor(1);
 
-    axis = this->joints[ix]->GetGlobalAxis(0).Round();
-    displacement = (bodyPoint - hingePoint).Dot(axis);
+  axis = this->joints[ix]->GetGlobalAxis(0).Round();
+  displacement = (bodyPoint - hingePoint).Dot(axis);
 
-    float amt = displacement * this->swayForce;
-    if (displacement > 0)
-    {
-      if (amt > 15)
-        amt = 15;
+  float amt = displacement * this->swayForce;
+  if (displacement > 0)
+  {
+  if (amt > 15)
+  amt = 15;
 
-      math::Pose p = this->joints[ix]->GetChild()->GetWorldPose();
-      this->joints[ix]->GetChild()->AddForce(axis * -amt);
-      this->chassis->AddForceAtWorldPosition(axis * amt, p.pos);
+  math::Pose p = this->joints[ix]->GetChild()->GetWorldPose();
+  this->joints[ix]->GetChild()->AddForce(axis * -amt);
+  this->chassis->AddForceAtWorldPosition(axis * amt, p.pos);
 
-      p = this->joints[ix^1]->GetChild()->GetWorldPose();
-      this->joints[ix^1]->GetChild()->AddForce(axis * amt);
-      this->chassis->AddForceAtWorldPosition(axis * -amt, p.pos);
-    }
+  p = this->joints[ix^1]->GetChild()->GetWorldPose();
+  this->joints[ix^1]->GetChild()->AddForce(axis * amt);
+  this->chassis->AddForceAtWorldPosition(axis * -amt, p.pos);
+  }
   }*/
+
+  if(this->following_camera)
+  {
+      math::Pose p = this->chassis->GetWorldPose();
+
+  }
 }
 
 void OSRobot::OnVelMsg(ConstPosePtr &_msg)
@@ -170,6 +183,14 @@ void OSRobot::OnVelMsg(ConstPosePtr &_msg)
     this->forwardSpeed = _msg->position().x();
     this->turnAngle = _msg->position().y();
     std::cout<<"received vel message: ("<<this->forwardSpeed<<" , "<<this->turnAngle<<")"<<std::endl;
+
+}
+
+void OSRobot::OnReqMsg(ConstReqPtr &_msg)
+{
+    printf("Set following camera\n");
+
+    this->following_camera = _msg->following_cam();
 }
 
 // Register this plugin with the simulator
