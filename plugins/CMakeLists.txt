@@ -3,6 +3,7 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/msgs
   )
 
+set(my_msg my_msgs)
 add_subdirectory(msgs)
 
 set(WBRobotController wbr_controller)
@@ -21,8 +22,8 @@ add_library(${OSRobotController} MODULE osrobot_controller.cc)
 
 target_link_libraries(${WBRobotController} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${WBRobotFactory} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(${OSRobotMotion} my_msgs ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(${OSRobotVisual} my_msgs ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${OSRobotMotion} ${my_msg} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${OSRobotVisual} ${my_msg} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${OSRobotFactory} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${OSRobotController} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 install(TARGETS ${WBRobotController} DESTINATION ${GAZEBO_PLUGIN_PATH})
