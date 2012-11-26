@@ -36,7 +36,7 @@
         </include>
 
         <plugin name="osrobot_factory" filename="libosr_factory.so">
-            <num_robots>2</num_robots>
+            <num_robots>1</num_robots>
         </plugin>
     </world>
 </sdf>

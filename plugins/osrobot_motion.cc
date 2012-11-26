@@ -12,9 +12,6 @@ OSRobot::OSRobot()
   this->maxSpeed=1.0;
 
   this->following_camera = false;
-
-  this->req_subscribed = false;
-
 }
 
 OSRobot::~OSRobot()
