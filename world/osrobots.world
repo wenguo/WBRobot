@@ -32,7 +32,8 @@
 
         <!-- A ground plane -->
         <include>
-            <uri>model://ground_plane</uri>
+            <uri>model://village</uri>
+            <pose>100 200 0 0 0 0</pose>
         </include>
 
         <plugin name="osrobot_factory" filename="libosr_factory.so">
