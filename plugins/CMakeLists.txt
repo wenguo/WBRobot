@@ -28,7 +28,7 @@ target_link_libraries(${OSRobotMotion} ${my_msg} ${GAZEBO_LIBRARIES} ${Boost_LIB
 target_link_libraries(${OSRobotVisual} ${my_msg} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${OSRobotFactory} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${OSRobotController} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(${ScreenCast} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${ScreenCast} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} CameraPlugin)
 install(TARGETS ${WBRobotController} DESTINATION ${GAZEBO_PLUGIN_PATH})
 install(TARGETS ${WBRobotFactory} DESTINATION ${GAZEBO_PLUGIN_PATH})
 install(TARGETS ${OSRobotMotion} DESTINATION ${GAZEBO_PLUGIN_PATH})

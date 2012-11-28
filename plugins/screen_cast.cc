@@ -22,51 +22,46 @@ ScreenCast::ScreenCast() : saveCount(0)
 {
 }
 
-void ScreenCast::Load(int /*_argc*/, char ** /*_argv*/)
+void ScreenCast::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
 {
     // Don't forget to load the camera plugin
-}
+    CameraPlugin::Load(_parent, _sdf);
+    printf("Load ScreenCast\n");
 
-void ScreenCast::Init()
-{
-    this->userCam = gui::get_active_camera();
+    std::string worldName = "default";
+    this->node = transport::NodePtr(new transport::Node());
+    this->node->Init(worldName);
+    this->guiSub = this->node->Subscribe(std::string("~/gui"), &ScreenCast::OnGUI, this);
 
-    this->userCam->EnableSaveFrame(true);
-    this->userCam->SetSaveFramePathname("gazebo_frames");
-    return;
-
-    this->userCam->SetCaptureData(true);
-    if(!this->userCam->GetRenderTexture())
-        this->userCam->CreateRenderTexture("mytexture"); 
-    this->newFrameConnection = this->userCam->ConnectNewImageFrame(
-            boost::bind(&ScreenCast::OnNewFrame, this, _1, _2, _3, _4, _5));
-    this->width = this->userCam->GetImageWidth();
-    this->height = this->userCam->GetImageHeight();
-    this->depth = this->userCam->GetImageDepth();
-    this->format = this->userCam->GetImageFormat();
 
 }
 
 void ScreenCast::OnNewFrame(const unsigned char * _image,
-                              unsigned int _width,
-                              unsigned int _height,
-                              unsigned int _depth,
-                              const std::string &_format) 
+        unsigned int _width,
+        unsigned int _height,
+        unsigned int _depth,
+        const std::string &_format) 
 {
     char tmp[1024];
     snprintf(tmp, sizeof(tmp), "%s-%04d.jpg",
-            this->userCam->GetName().c_str(), this->saveCount);
+            this->camera->GetName().c_str(), this->saveCount);
 
-    if (this->saveCount < 100)
+    /*if (this->saveCount < 10)
     {
-            rendering::Camera::SaveFrame(_image, this->width,
-    this->height, this->depth, this->format, tmp);
-           // usleep(10000000);
-            gzmsg << "Saving frame [" << this->saveCount
-                << "] as [" << tmp << "]["<<this->width<<","<<this->height<<"]\n";
-            this->saveCount++;
+        this->camera->SaveFrame(
+                _image, _width, _height, _depth, _format, tmp);
+        gzmsg << "Saving frame [" << this->saveCount
+            << "] as [" << tmp << "]\n";
+        this->saveCount++;
     }
+    */
+}
+
+
+void ScreenCast::OnGUI(ConstGUIPtr &_msg)
+{
+    printf("received gui message\n");
 }
 
 // Register this plugin with the simulator
-GZ_REGISTER_SYSTEM_PLUGIN(ScreenCast)
+GZ_REGISTER_SENSOR_PLUGIN(ScreenCast)
