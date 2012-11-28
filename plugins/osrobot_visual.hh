@@ -28,7 +28,6 @@ namespace gazebo
         private:
 
             // Pointer to the update event connection
-            event::ConnectionPtr updateConnection;
             rendering::VisualPtr visual;
             rendering::UserCameraPtr cam;
 

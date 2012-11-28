@@ -41,17 +41,17 @@ void OSRobot::Load(physics::ModelPtr _parent, sdf::ElementPtr _sdf)
   this->frontPower = _sdf->GetValueDouble("front_power");
   this->rearPower = _sdf->GetValueDouble("rear_power");
 
-  this->joints[0]->SetAttribute(physics::Joint::SUSPENSION_ERP, 0, 0.15);
-  this->joints[0]->SetAttribute(physics::Joint::SUSPENSION_CFM, 0, 0.04);
+  this->joints[0]->SetAttribute("suspension_erp", 0, 0.15);
+  this->joints[0]->SetAttribute("suspension_cfm", 0, 0.04);
 
-  this->joints[1]->SetAttribute(physics::Joint::SUSPENSION_ERP, 0, 0.15);
-  this->joints[1]->SetAttribute(physics::Joint::SUSPENSION_CFM, 0, 0.04);
+  this->joints[1]->SetAttribute("suspension_erp", 0, 0.15);
+  this->joints[1]->SetAttribute("suspension_cfm", 0, 0.04);
 
-  this->joints[2]->SetAttribute(physics::Joint::SUSPENSION_ERP, 0, 0.15);
-  this->joints[2]->SetAttribute(physics::Joint::SUSPENSION_CFM, 0, 0.04);
+  this->joints[2]->SetAttribute("suspension_erp", 0, 0.15);
+  this->joints[2]->SetAttribute("suspension_cfm", 0, 0.04);
 
-  this->joints[3]->SetAttribute(physics::Joint::SUSPENSION_ERP, 0, 0.15);
-  this->joints[3]->SetAttribute(physics::Joint::SUSPENSION_CFM, 0, 0.04);
+  this->joints[3]->SetAttribute("suspension_erp", 0, 0.15);
+  this->joints[3]->SetAttribute("suspension_cfm", 0, 0.04);
 
   if (!this->joints[0])
   {

@@ -1,6 +1,12 @@
 <?xml version="2.0" ?>
 <sdf version="1.3">
     <world name="default">
+        <gui fullscreen="0">
+            <camera name="user_camera">
+                <view_controller>orbit</view_controller>
+                <pose>0 0 1 0 0 0</pose>
+            </camera>
+        </gui>
         <physics type="ode">
             <gravity>0 0 -9.8</gravity>
             <ode>
