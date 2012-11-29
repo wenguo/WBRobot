@@ -15,6 +15,7 @@
  *
  */
 #include "screen_cast.hh"
+#include <rendering/Scene.hh>
 
 using namespace gazebo;
 
@@ -28,12 +29,6 @@ void ScreenCast::Load(sensors::SensorPtr _parent, sdf::ElementPtr _sdf)
     CameraPlugin::Load(_parent, _sdf);
     printf("Load ScreenCast\n");
 
-    std::string worldName = "default";
-    this->node = transport::NodePtr(new transport::Node());
-    this->node->Init(worldName);
-    this->guiSub = this->node->Subscribe(std::string("~/gui"), &ScreenCast::OnGUI, this);
-
-
 }
 
 void ScreenCast::OnNewFrame(const unsigned char * _image,
@@ -43,10 +38,9 @@ void ScreenCast::OnNewFrame(const unsigned char * _image,
         const std::string &_format) 
 {
     char tmp[1024];
-    snprintf(tmp, sizeof(tmp), "%s-%04d.jpg",
-            this->camera->GetName().c_str(), this->saveCount);
+    snprintf(tmp, sizeof(tmp), "%04d.png", this->saveCount);
 
-    /*if (this->saveCount < 10)
+    if (this->saveCount < 10)
     {
         this->camera->SaveFrame(
                 _image, _width, _height, _depth, _format, tmp);
@@ -54,14 +48,13 @@ void ScreenCast::OnNewFrame(const unsigned char * _image,
             << "] as [" << tmp << "]\n";
         this->saveCount++;
     }
-    */
+
+    printf("userCam: %d\n", this->camera->GetScene()->GetUserCameraCount());
+    rendering::UserCameraPtr userCam = this->camera->GetScene()->GetUserCamera(0); 
+    if(userCam)
+        std::cout<<userCam->GetWorldPose()<<std::endl;
 }
 
-
-void ScreenCast::OnGUI(ConstGUIPtr &_msg)
-{
-    printf("received gui message\n");
-}
 
 // Register this plugin with the simulator
 GZ_REGISTER_SENSOR_PLUGIN(ScreenCast)

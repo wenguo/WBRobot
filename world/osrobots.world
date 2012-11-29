@@ -60,9 +60,9 @@
             </link>
         </model>
 
-        <plugin name="osrobot_factory" filename="libosr_factory.so">
+        <!--plugin name="osrobot_factory" filename="libosr_factory.so">
             <num_robots>1</num_robots>
-        </plugin>
+        </plugin-->
 
     </world>
 </sdf>

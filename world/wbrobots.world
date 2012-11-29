@@ -5,6 +5,11 @@
             <camera name="user_camera">
                 <view_controller>orbit</view_controller>
                 <pose>0 0 1 0 0 0</pose>
+                <track_visual>
+                    <name>"mycamera"</name>
+                    <min_dist>0.2</min_dist>
+                    <max_dist>100</max_dist>
+                </track_visual>
             </camera>
         </gui>
         <physics type="ode">
