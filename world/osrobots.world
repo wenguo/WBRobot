@@ -36,7 +36,7 @@
             <pose>0 0 0 0 0 0</pose>
         </include>
 
-        <model name="screencast_camera">
+        <!--model name="screencast_camera">
             <link name="sc_link">
                 <sensor name='cam_sensor1' type='camera'>
                     <always_on>1</always_on>
@@ -58,11 +58,11 @@
                 </sensor>
 
             </link>
-        </model>
+        </model-->
 
-        <!--plugin name="osrobot_factory" filename="libosr_factory.so">
+        <plugin name="osrobot_factory" filename="libosr_factory.so">
             <num_robots>1</num_robots>
-        </plugin-->
+        </plugin>
 
     </world>
 </sdf>

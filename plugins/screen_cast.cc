@@ -49,7 +49,6 @@ void ScreenCast::OnNewFrame(const unsigned char * _image,
         this->saveCount++;
     }
 
-    printf("userCam: %d\n", this->camera->GetScene()->GetUserCameraCount());
     rendering::UserCameraPtr userCam = this->camera->GetScene()->GetUserCamera(0); 
     if(userCam)
         std::cout<<userCam->GetWorldPose()<<std::endl;
