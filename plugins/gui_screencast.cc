@@ -15,6 +15,7 @@
  *
  */
 #include "gui_screencast.hh"
+#include <transport/Node.hh>
 
 using namespace gazebo;
 
@@ -39,8 +40,8 @@ void GUIScreenCast::Init()
 
     this->camera->Load();
 
-    this->camera->SetImageWidth(640);//this->userCam->GetImageWidth());
-    this->camera->SetImageHeight(480);//this->userCam->GetImageHeight());
+    this->camera->SetImageWidth(800);//this->userCam->GetImageWidth());
+    this->camera->SetImageHeight(600);//this->userCam->GetImageHeight());
     this->camera->SetHFOV(this->userCam->GetHFOV());
 
     std::cout<<"width: "<<this->camera->GetImageWidth()<<"height"
@@ -60,27 +61,42 @@ void GUIScreenCast::Init()
 
    this->camera->SetCaptureData(true);
 
+   this->node = transport::NodePtr(new transport::Node());
+   this->node->Init();
+   this->statsSub = this->node->Subscribe(
+           std::string("~/world_stats"), &GUIScreenCast::OnUpdate, this);
 
-    this->connections.push_back(event::Events::ConnectRender(
-                boost::bind(&GUIScreenCast::Render, this)));
-    this->connections.push_back(event::Events::ConnectPostRender(
-                boost::bind(&GUIScreenCast::PostRender, this)));
-    this->connections.push_back(this->camera->ConnectNewImageFrame(
-                boost::bind(&GUIScreenCast::OnNewFrame, this, _1, _2, _3, _4, _5)));
+   this->connections.push_back(event::Events::ConnectRender(
+               boost::bind(&GUIScreenCast::Render, this)));
+   this->connections.push_back(event::Events::ConnectPostRender(
+               boost::bind(&GUIScreenCast::PostRender, this)));
+   this->connections.push_back(this->camera->ConnectNewImageFrame(
+               boost::bind(&GUIScreenCast::OnNewFrame, this, _1, _2, _3, _4, _5)));
+}
+
+void GUIScreenCast::OnUpdate(ConstWorldStatisticsPtr &_msg)
+{
+    this->simTime = msgs::Convert(_msg->sim_time());
+    this->camera->SetWorldPose(this->userCam->GetWorldPose());
 }
 
 void GUIScreenCast::Render()
 {
-    static int i=0;
-    if(i++%10==0)
-    this->camera->Render();
+    if(this->simTime - this->lastUpdateTime > common::Time(0.0))//this->updatePeriod)
+    {
+        this->lastUpdateTime = this->simTime;
+        this->update = true;
+        this->camera->Render();
+    }
 }
 
 void GUIScreenCast::PostRender()
 {
-    static int i=0;
-    if(i++%10==0)
-    this->camera->PostRender();
+    if(this->update)
+    {
+        this->update = false;
+        this->camera->PostRender();
+    }
 }
 
 void GUIScreenCast::OnNewFrame(const unsigned char * _image,
