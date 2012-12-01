@@ -58,7 +58,7 @@ void GUIScreenCast::Init()
     this->camera->CreateRenderTexture("screencast_cam_RttTex");
     this->camera->SetWorldPose(this->userCam->GetWorldPose());
 
-    this->camera->SetCaptureData(true);
+   this->camera->SetCaptureData(true);
 
 
     this->connections.push_back(event::Events::ConnectRender(
@@ -71,11 +71,15 @@ void GUIScreenCast::Init()
 
 void GUIScreenCast::Render()
 {
+    static int i=0;
+    if(i++%10==0)
     this->camera->Render();
 }
 
 void GUIScreenCast::PostRender()
 {
+    static int i=0;
+    if(i++%10==0)
     this->camera->PostRender();
 }
 

@@ -25,6 +25,10 @@ namespace gazebo
             std::vector<event::ConnectionPtr> connections;
             rendering::UserCameraPtr userCam;
             rendering::CameraPtr camera;
+
+            common::Time lastUpdateTime;
+            common::Time updatePeriod;
+
             int saveCount;
     };
 
