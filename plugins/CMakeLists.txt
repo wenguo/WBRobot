@@ -3,6 +3,27 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}/msgs
   )
 
+########################################
+# Find libavutil
+pkg_check_modules(libavutil libavutil)
+if (NOT libavutil_FOUND)
+    BUILD_WARNING ("libavutil not found. Audio-video capabilities will be disabled.")
+endif ()
+
+########################################
+# Find AV format
+pkg_check_modules(libavformat libavformat)
+if (NOT libavformat_FOUND)
+    BUILD_WARNING ("libavformat not found. Audio-video capabilities will be disabled.")
+endif ()
+
+########################################
+# Find avcodec
+pkg_check_modules(libavcodec libavcodec)
+if (NOT libavcodec_FOUND)
+    BUILD_WARNING ("libavcodec not found. Audio-video capabilities will be disabled.")
+endif ()
+
 set(my_msg my_msgs)
 add_subdirectory(msgs)
 
@@ -31,7 +52,7 @@ target_link_libraries(${OSRobotVisual} ${my_msg} ${GAZEBO_LIBRARIES} ${Boost_LIB
 target_link_libraries(${OSRobotFactory} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${OSRobotController} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(${ScreenCast} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} CameraPlugin)
-target_link_libraries(${GUIScreenCast} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(${GUIScreenCast} ${GAZEBO_LIBRARIES} ${Boost_LIBRARIES} ${libavcodec_LIBRARIES} ${libavformat_LIBRARIES} ${libavutil_LIBRARIES})
 install(TARGETS ${WBRobotController} DESTINATION ${GAZEBO_PLUGIN_PATH})
 install(TARGETS ${WBRobotFactory} DESTINATION ${GAZEBO_PLUGIN_PATH})
 install(TARGETS ${OSRobotMotion} DESTINATION ${GAZEBO_PLUGIN_PATH})
